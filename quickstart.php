@@ -87,7 +87,7 @@ $events = $results->getItems();
 $event = new Google_Service_Calendar_Event(array(
   'summary' => $data[2],
   'location' => $data[4],
-  'description' => 'http://localhost/callback-details?id='.$data[0],
+  'description' => 'https://crm.blisssrealty.com/callback-details?id='.$data[0],
   'start' => array(
     'dateTime' => $data[3],
     'timeZone' => 'Asia/Kolkata',
