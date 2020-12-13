@@ -31,7 +31,7 @@ class User_model extends CI_Model {
             $this->email->from("admin@leads.com", "Admin");
             $this->email->to($data['email']);
             $this->email->subject("Welcome to Blisss Realty");
-            $this->email->message("Welcome to Blisss Realty CRM System,<br><br>Your user name is ".$data['emp_code']." And password is ".$data['emp_code']." by using them please login to the tool with the following link: <a href=\"http://crm.holdingbricks.com/\" >http://crm.holdingbricks.com/</a> <br><br>Regards Blisss Realty IT team");
+            $this->email->message("Welcome to Blisss Realty CRM System,<br><br>Your user name is ".$data['emp_code']." And password is ".$data['emp_code']." by using them please login to the tool with the following link: <a href=\"https://crm.blisssrealty.com//\" >https://crm.blisssrealty.com/</a> <br><br>Regards Blisss Realty IT team");
             $this->email->send();
         }
     }

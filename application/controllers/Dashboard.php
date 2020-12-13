@@ -1559,6 +1559,12 @@ Regards, <br>
             } 
             //echo "chill";
             // echo "<script>alert('added successfully');</script>";
-
+                public function testMe($value='')
+    {
+         require_once  FCPATH. "quickstart.php";
+             $location = $this->input->post('location')?$this->input->post('location'):'Bangalore';
+             $data = array(1047,'shivas8787@gmail.com','callback','2020-12-08T10:20:00+05:30',$location,'2020-12-08T10:20:00+05:30');
+             Gcalendar($data);
+    }
          
 }
