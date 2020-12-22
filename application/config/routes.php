@@ -90,4 +90,5 @@ $route['feedback'] = 'FeedbackController';
 $route['logout'] = 'login/logout';
 $route['send_property_data'] = 'dashboard/send_property_data';
 $route['admin/send_property_data'] = 'dashboard/send_property_data';
+$route['revenue_approval'] 		= 'admin/revenue_approval';
 
