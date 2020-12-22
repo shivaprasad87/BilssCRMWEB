@@ -16,30 +16,21 @@ class RoundRobbin extends CI_Controller {
     {
 
     	$data = array('saved'=>0);
-		$un_saved = $this->common_model->get_where_groupby($data,'online_leads','project_id'); 
-		//print_r($un_saved);die;
+    	$un_saved =$this->common_model->getWhere($data,'online_leads'); 
 		foreach ($un_saved as $us) { 
-			//echo $us->id;die;
-			$lead_data = array('id'=>$us->project_id);
-			$project_data = $this->common_model->get_where_groupby($lead_data,'project','id');
-			$o_l_id= $us->id; 
-			foreach ($project_data as $p_data) {
-				echo $o_l_id."onlline lead id <br>";
-				$city_id = array('city_id'=>$p_data->city_id);
-				if($p_data->city_id)
-			 	{
-			 		$user_data = array('city_id'=>$p_data->city_id,'type'=>1,'active'=>1,'date(last_update)'=>date('Y-m-d')); 
-			 		$user = $this->common_model->get_users_for_assign($user_data,'user'); 
-			 		$this->common_model->userCountplus($user[0]->id); 
-			 		$this->save_online_leads($user[0]->id,$o_l_id);
-			 		$this->index();
-			 	}
-			} 
-		   		
-		   	}   	 
+			$user = $this->common_model->get_users_for_assign($us->project_id,'user'); 
+			if(!empty($user))
+			{
+			print_r($user);
+			echo "<br>".$user[0]->id."<br>";
+			$this->save_online_leads($user[0]->id,$us->id,$us->project_id);
+			$this->common_model->userCountplus($user[0]->id); 
+			$this->index();
+			}
+		}
+   	 
     }
-    public function save_online_leads($user='',$online_lead_id='',$project_id=''){
-    	//echo "this funciton calling";die;
+    public function save_online_leads($user='',$online_lead_id='',$project_id=''){ 
 		$error=0;
 		$ext=''; 
 			$dept=1;
@@ -48,6 +39,8 @@ class RoundRobbin extends CI_Controller {
 			$status=1;
 			$due_date=date('Y-m-d');
 			$due_time=date('h:m'); 
+			$lead_ids = json_decode(json_encode($this->callback_model->get_last_id()),true);
+            $leadId = $lead_ids['id']+1;
  
 				$lead_data = $this->common_model->getFromId($online_lead_id, 'id', 'online_leads');
 				 if($project_id)
@@ -95,7 +88,7 @@ class RoundRobbin extends CI_Controller {
 					'email1'=>$lead_data->email,
 					'project_id'=>$p_id['id'],
 					'lead_source_id'=>$data['id'],
-					'leadid'=>$lead_data->leadid,
+					'leadid'=>trim("PMR-".sprintf("%'.011d",$leadId).PHP_EOL),
 					'user_id'=>$user,
 					'due_date'=>$due_date,
 					'broker_id'=>$broker,
@@ -104,7 +97,7 @@ class RoundRobbin extends CI_Controller {
 					'date_added'=>date('Y-m-d H:i:s'),
 				);
 				$this->callback_model->add_callbacks($data);
-				$data = $this->common_model->updateWhere(array('id'=>$lead_data->id));
+				$data = $this->common_model->updateWhere_leadid(array('id'=>$lead_data->id));
 				if($data)
 					echo "success";
 				else
@@ -112,6 +105,7 @@ class RoundRobbin extends CI_Controller {
 	}
 	public function make_count_zero($value='')
 	{
+		
 	$bool =	$this->common_model->make_count_zero();
 	if($bool)
 		echo "truncated";

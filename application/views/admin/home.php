@@ -94,7 +94,7 @@
                                                                 <h4>Updates</h4>
                                                             </div>
                                                             <div class="stats-right">
-                                                                <label> 5    </label>
+                                                                <label> 0</label>
                                                             </div>
                                                             <div class="clearfix"> </div>   
                                                         </div>
@@ -104,7 +104,7 @@
                                                                 <h4>Callbacks</h4>
                                                             </div>
                                                             <div class="stats-right">
-                                                                <label><a href="#" class="view_callbacks" data-type="user_overdue">101 </a></label>
+                                                                <label><a href="#" class="view_callbacks" data-type="user_overdue">0</a></label>
                                                             </div>
                                                             <div class="clearfix"> </div>   
                                                         </div>
@@ -114,7 +114,7 @@
                                                                 <h4>Callbacks</h4>
                                                             </div>
                                                             <div class="stats-right">
-                                                                <label>16</label>
+                                                                <label>0</label>
                                                             </div>
                                                             <div class="clearfix"> </div>   
                                                         </div>
@@ -128,7 +128,7 @@
                                                                 <h4>New Leads </h4>
                                                             </div>
                                                             <div class="stats-right">
-                                                                <label> 100</label>
+                                                                <label>0</label>
                                                             </div>
                                                             <div class="clearfix"> </div>   
                                                         </div>
