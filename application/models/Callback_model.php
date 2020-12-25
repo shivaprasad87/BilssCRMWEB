@@ -135,11 +135,11 @@ class Callback_model extends MY_Model {
         $this->db->insert('close_callback_details',array('callback_id'=> $lstId,'date_added'=>date('Y-m-d H:s:i')));
 
         $user_id = $this->session->userdata('user_id');
-        $date_added = date('Y-m-d H:s:i');
+        $date_added = date('Y-m-d H:i:s');
         $message = "Lead added in the system";
         $query=$this->db->insert('callback_log',array(
             'callback_id' => $lstId,
-            'user_id' => $user_id,
+            'user_id' => $user_id?$user_id:$data['user_id'],
             'details' => $message,
             'date_added' => $date_added
         ));

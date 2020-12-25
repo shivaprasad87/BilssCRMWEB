@@ -17,17 +17,25 @@ class RoundRobbin extends CI_Controller {
 
     	$data = array('saved'=>0);
     	$un_saved =$this->common_model->getWhere($data,'online_leads'); 
+    	if(count($un_saved)>0)
+    	{
 		foreach ($un_saved as $us) { 
 			$user = $this->common_model->get_users_for_assign($us->project_id,'user'); 
 			if(!empty($user))
 			{
-			print_r($user);
+			//print_r($user);
 			echo "<br>".$user[0]->id."<br>";
 			$this->save_online_leads($user[0]->id,$us->id,$us->project_id);
-			$this->common_model->userCountplus($user[0]->id); 
+			$check = $this->common_model->userCountplus($user[0]->id); 
+			if($check)
 			$this->index();
 			}
 		}
+		echo "success";
+		}
+		else
+			echo "No Leads to automatic assignent";
+
    	 
     }
     public function save_online_leads($user='',$online_lead_id='',$project_id=''){ 
@@ -96,12 +104,14 @@ class RoundRobbin extends CI_Controller {
 					'notes'=>$lead_data->notes,
 					'date_added'=>date('Y-m-d H:i:s'),
 				);
-				$this->callback_model->add_callbacks($data);
+				if (!($this->callback_model->isexists_callbacks($data))){
+					$this->callback_model->add_callbacks($data);
+				}
 				$data = $this->common_model->updateWhere_leadid(array('id'=>$lead_data->id));
-				if($data)
-					echo "success";
-				else
-					echo "fails"; 
+				// if($data)
+				// 	echo "success";
+				// else
+				// 	echo "fails"; 
 	}
 	public function make_count_zero($value='')
 	{

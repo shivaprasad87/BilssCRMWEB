@@ -283,6 +283,7 @@
                 <th class="priority-10">Edit</th>
                 <th class="priority-11">Change Password</th> 
                 <th class="priority-12">Privilege</th>
+                <th class="priority-12">Projects</th>
             </tr>
         </thead> 
         <tbody>
@@ -302,6 +303,9 @@
                         <td class="priority-11" align="middle"><button type="button" class="btn btn-info" onclick="reset_password(<?php echo $manager->id; ?>)">Reset Password</button></td>
                         <td class="priority-12" align="middle">
                             <button type="button" class="btn btn-info" onclick="permissionModal(<?php echo $manager->id; ?>)" data-toggle="modal" data-target="#modalPermission">Permission</button>
+                        </td>
+                        <td class="priority-10" style="width:30%;vertical-align:middle;">
+                            <button type="button" class="btn btn-info" onclick="assignProjects(<?php echo $manager->id; ?>)" data-toggle="modal" data-target="#assignProject">Assign Project</button>
                         </td>
                     </tr>
                 <?php }
