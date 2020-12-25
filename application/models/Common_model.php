@@ -745,6 +745,43 @@ class Common_model extends MY_Model {
         else
             return false;
     }
+     function getProjectList($clause){
+        $q = $this->db->get_where('project', $clause);
+        return $q->result_array();
+    }
+    function checkModuleProject($clause) {
+        $q = $this->db->get_where('user', $clause);
+        return $q->row_array();
+    } 
+     function postAccessQueryProject($params){
+        $this->db->insert('user', $params);
+        return $this->db->insert_id();
+    }
+    function deleteAccessProject($clause){
+        $this->db->delete('user', $clause);
+        return true;
+    } 
+    function updateAccessQueryProject($clause, $params){
+        $this->db->where($clause);
+        if($this->db->update('user', $params))
+            return true;
+        else
+            return false;
+    }
+            function get_project_details($id){
+        $this->db->select('p.*,c.id as city_id,c.name as city,b.name as builder,b.id as builder_id');
+        $this->db->from('project as p');
+        $this->db->join('city as c','c.id=p.city_id','LEFT');
+        $this->db->join('builder as b','b.id=p.builder_id','LEFT'); 
+        $this->db->where('p.id',$id);
+        $query=$this->db->get();
+        return $query?$query->row():false;
+    }
+     public function updateProject($where, $data, $table_name = '') {
+        if ($table_name == '')
+            $table_name = $this->table_name;
+        return $this->db->where($where)->update($table_name, $data);
+    }
     
 
 

@@ -2190,7 +2190,7 @@ if($this->input->post('budget')!='')
 						'contact_no2'=>trim($contact_no2),
 						'email1'=>trim($email1),
 						'email2'=>trim($email2),
-						'leadid'=>trim("LNO-".sprintf("%'.011d",$lead_ids++).PHP_EOL),
+						'leadid'=>trim("BLS-".sprintf("%'.011d",$lead_ids++).PHP_EOL),
 						'notes'=>trim($notes),
 					);
 					// print_r($data);exit;
@@ -3771,6 +3771,65 @@ public function make_user_online($value='')
 			 $location = $this->input->post('location')?$this->input->post('location'):'Bangalore';
 			 $data = array(1047,'shivas8787@gmail.com','callback','2020-12-08T10:20:00+05:30',$location,'2020-12-08T10:20:00+05:30');
        		 Gcalendar($data);
+	}
+			function projectList() {
+		$userId = $this->input->get_post('id');
+		$result = array();
+		if($userId) {
+            $result['prntModules'] = $this->common_model->getProjectList(['active' => '1']); 
+            $fetchData = $this->common_model->checkModuleProject(['id' => $userId]);
+            if($fetchData['assignedProjects'])
+            	$result['accessProjects'] = json_decode($fetchData['assignedProjects'], true);
+            echo json_encode($result);
+            exit();
+		}
+		else
+			echo 'User Id not found!';
+	}
+	function post_module_project(){
+		$result = array();
+		$result['type'] = 0;
+		if($this->input->post('projectprojectaccess') && $this->input->post('userId')) {			
+			$params = array(
+				'id'		=> $this->input->post('userId'),
+				'assignedProjects'	=> json_encode($this->input->post('projectprojectaccess')) 
+			);
+			$chkExists = $this->common_model->checkModuleProject(['id' => $this->input->post('userId')]);
+			if(!$chkExists){
+				$insId = $this->common_model->postAccessQueryProject($params);			
+				$result['type'] = 1;
+				$result['msg']  = 'Project set successfully.';
+			}
+			else{
+				$clause = ['id' => $this->input->post('userId')];
+				if($this->common_model->updateAccessQueryProject($clause, $params)){
+					$result['type'] = 1;
+					$result['msg']  = 'Project update successfully.';
+				}
+				else
+					$result['msg']  = 'Project update failed!';
+			}
+		}
+		elseif($this->input->post('userId')) {
+			$params = array(
+				'id'		=> $this->input->post('userId'),
+				'assignedProjects'	=> '' 
+			);
+			$clause = ['id' => $this->input->post('userId')];
+			$chkExists = $this->common_model->checkModulePermission(['id' => $this->input->post('userId')]);
+			if($chkExists){
+				$this->common_model->updateAccessQueryProject($clause,$params);
+				$result['type'] = 1;
+				$result['msg']  = 'Project revoked successfully.';
+			}
+			else
+				$result['msg']  = 'Project revoked failed!';
+		}
+		else
+			$result['msg']  = 'Please select modules!';
+
+		echo json_encode($result);
+		exit();
 	}
 
 }

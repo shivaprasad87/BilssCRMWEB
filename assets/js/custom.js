@@ -25,6 +25,33 @@ $(function(){
         return false;
     });
 });
+$(function(){    
+
+    $('#project-frm .sbmt').on('click', function(){
+        var l = window.location;
+        var BASE_URL = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
+        $(".se-pre-con").show();
+        $.ajax({
+            type:"POST",
+            url: BASE_URL+"/post_module_project",
+            data:$('#project-frm').serialize(),
+            success:function(res) {
+                $(".se-pre-con").hide('slow');
+                var data = JSON.parse(res);
+               if(data.type == 1) {
+                    $('.errMsg').html('<p class="alert alert-success">'+data.msg+'</p>');
+                    setTimeout(function(){
+                        location.reload();
+                   },1500);
+               }
+               else
+                $('.errMsg').html('<p class="alert alert-danger">'+data.msg+'</p>');
+
+            }
+        });
+        return false;
+    });
+});
 function permissionModal(id) {
     var l = window.location;
     var BASE_URL = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
@@ -68,3 +95,56 @@ function permissionModal(id) {
         });
     }
 }
+$(function(){
+
+    if (!$('.envelope').hasClass('open')){
+      $('.envelope').click(function(){
+        $(this).removeClass('new').addClass('open');
+      });
+    }
+    
+  });
+function assignProjects(id) {
+    var l = window.location;
+    var BASE_URL = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
+    if(id) {
+        $(".se-pre-con").show();
+        $html = '';
+        $.ajax({
+            type:"POST",
+            url: BASE_URL+"/projectList",
+            data:{id:id},
+            success:function(data) {   
+                var result = JSON.parse(data);
+                //alert(result);
+                $.each(result.prntModules, function(key, val){
+                    if(jQuery.inArray(val.id, result.accessProjects) !== -1)
+                        var pchk = 'checked';
+                    else
+                        var pchk = '';
+                    $html +='<fieldset><legend><label class="pm-list">'+
+                        '<input type="checkbox" name="projectprojectaccess[]" value="'+val.id+'" '+pchk+'>'+val.name+'</label>';
+                    /*if(result.chldModules.length)
+                        $html +='<div>';
+                    $.each(result.chldModules, function(key, cval){
+                        if(val.id === cval.parentId){
+                            if(jQuery.inArray(cval.id, result.userAccess) !== -1)
+                                var chk = 'checked';
+                            else
+                                var chk = '';
+                            $html +='<label class="m-list">'+
+                                '<input type="checkbox" name="projectaccess[]" value="'+cval.id+'" '+chk+'>'+cval.name+
+                            '</label>';
+                        } 
+                    });   
+                    if(result.chldModules.length)
+                        $html +='</div>';  */                 
+                    $html +='</fieldset></legend>';
+                });
+                $("#assignProject .userId").val(id);
+                $(".project-list").html($html);
+                $(".se-pre-con").hide("slow");
+            }
+        });
+    }
+} 

@@ -153,3 +153,26 @@
             </form>
         </div>
     </div>
+    <div class="modal fade" id="assignProject" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <form id="project-frm" class="" name="" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">                    
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Assign Projects</h4> 
+                    </div>
+                    <div class="modal-body project-list">                        
+                            <!-- fetch from ajax jquery -->                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success sbmt"  data-dismiss="modal">Submit</button>
+                        <input type="hidden" name="userId" value="" class="userId">                        
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-6 errMsg"></div>
+                    <div class="clearfix"></div>
+                </div>            
+            </form>
+        </div>
+    </div>
