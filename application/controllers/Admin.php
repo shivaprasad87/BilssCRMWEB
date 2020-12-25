@@ -3825,7 +3825,7 @@ public function make_user_online($value='')
 			else
 				$result['msg']  = 'Project revoked failed!';
 
-			echo $this->db->last_query();
+			//echo $this->db->last_query();
 		}
 		else
 			$result['msg']  = 'Please select modules!';
