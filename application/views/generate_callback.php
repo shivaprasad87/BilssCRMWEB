@@ -71,14 +71,10 @@
     </div>
     <form  action="<?php echo base_url()?>generate_callback" method="POST" enctype="multipart/form-data">
         <div class="row">
-            <div class="col-md-3 form-group">
+            <div class="col-md-3 form-group" hidden="">
                 <label for="emp_code">Dept:</label>
                 <select  class="form-control"  id="dept" name="dept" required >
-                    <option value="">Select</option>
-                    <?php $all_department=$this->common_model->all_active_departments();
-                    foreach($all_department as $department){ ?>
-                        <option value="<?php echo $department->id; ?>"><?php echo $department->name; ?></option>
-                    <?php }?>           
+                   <option value="1">Sales</option>      
                 </select>
             </div>
 
@@ -92,19 +88,15 @@
                 <input type="number" class="form-control" id="contact_no1" name="contact_no1" placeholder="Contact No">
             </div>
 
-            <div class="col-sm-3 form-group">
+            <!-- <div class="col-sm-3 form-group">
                 <label for="name">Contact No 2:</label>
                 <input type="number" class="form-control" id="contact_no2" name="contact_no2" placeholder="Contact No">
-            </div>
+            </div> -->
             
-            <div class="col-md-3 form-group">
+            <div class="col-md-3 form-group" hidden="">
                 <label for="assign">Call back type:</label>
                 <select  class="form-control"  id="callback_type" name="callback_type" required="required" >
-                    <option value="">Select </option>
-                    <?php $all_callback_types=$this->common_model->all_active_callback_types();
-                    foreach($all_callback_types as $callback_type){ ?>
-                        <option value="<?php echo $callback_type->id; ?>"><?php echo $callback_type->name; ?></option>
-                    <?php }?>            
+                   <option value="1">Domestic</option>          
                 </select>
             </div>
 
@@ -113,10 +105,10 @@
                 <input type="email" class="form-control" id="email1" name="email1" placeholder="Email">
             </div>
 
-            <div class="col-sm-3 form-group">
+            <!-- <div class="col-sm-3 form-group">
                 <label for="email">Email2:</label>
                 <input type="email" class="form-control" id="email2" name="email2" placeholder="email">
-            </div>
+            </div> -->
 
             <div class="col-md-3 form-group">
                 <label for="emp_code">Project:</label>
@@ -159,7 +151,7 @@
                 <input type="text" class="form-control" id="leadId" name="leadId" placeholder="Lead Id">
             </div> -->
 
-            <div class="col-md-3 form-group">
+            <div class="col-md-3 form-group" hidden="">
                 <label for="assign">User Name:</label>
                 <select  class="form-control"  id="user_name" name="user_name" required="required" >
                      <option value="">Select</option>
@@ -183,7 +175,7 @@
                                 break;
                         }
                         ?>
-                        <option value="<?php echo $user->id ?>"><?php echo $user->first_name." ".$user->last_name." ($role)"; ?></option>
+                        <option value="<?php echo $user->id ?>" <?php if($this->session->userdata("user_id")==$user->id) echo"selected"; ?>><?php echo $user->first_name." ".$user->last_name." ($role)"; ?></option>
                     <?php } ?>               
                 </select>
             </div>
@@ -199,14 +191,10 @@
                 </select>
             </div>
       
-            <div class="col-md-3 form-group">
+            <div class="col-md-3 form-group" hidden="">
                 <label for="assign">Status:</label>
                 <select  class="form-control"  id="status" name="status" required="required" >
-                    <option value="">Select</option>
-                    <?php $statuses= $this->common_model->all_active_statuses(); 
-                    foreach( $statuses as $status){ ?>
-                        <option value="<?php echo $status->id; ?>"><?php echo $status->name ?></option>
-                    <?php } ?>
+                    <option value="1">New</option>
                 </select>
             </div>
 
@@ -214,13 +202,13 @@
                 <label for="Duedate">Due date:</label>
                 <input type="date" class="form-control" id="due_date" name="due_date" placeholder="Date" required="required">
             </div>
-			<div class="col-sm-12" id="leadid_error" style="display:none">
+            <div class="col-sm-12" id="leadid_error" style="display:none">
                 <div class="alert alert-danger" >
                     The Lead Id already used
                 </div>
             </div>
       
-            <div class="col-sm-6 form-group">
+            <div class="col-sm-3 form-group">
                 <label for="comment">Notes:</label>
                 <textarea class="form-control" name="notes" id="notes" rows="3" id="comment"></textarea>
             </div>
@@ -236,13 +224,13 @@
                     The email already used
                 </div>
             </div>
-            
-            <div class="col-sm-6 form-group">
-                <a class="btn btn-danger btn-block" onclick="reset_data()">Cancel</a>
-            </div>
             <div class="col-sm-6 form-group">
                 <button type="submit" id="save" class="btn btn-success btn-block">Save</button>
             </div>
+            <div class="col-sm-6 form-group">
+                <a class="btn btn-danger btn-block" onclick="reset_data()">Reset</a>
+            </div>
+            
         </div>
     </form>
 </div>
