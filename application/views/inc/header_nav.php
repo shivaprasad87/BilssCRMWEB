@@ -162,20 +162,7 @@ $(document).ready(function(){
                              //alert('Local error callback');
                           }
                     }); 
-}, 5000);
-//           window.setInterval(function(){
-//                 $.ajax({
-//                           //dataType : "json",
-//                           url: 'logout',
-//                           success:function(data)
-//                           {
-//                          alert('Your session has been expired. Please Re-login');
-//                           },
-//                           error: function (jqXHR, status, err) {
-//                              //alert('Local error callback');
-//                           }
-//                     }); 
-// }, 30 * 60 * 1000);
+}, 5000); 
 </script>
 
 
